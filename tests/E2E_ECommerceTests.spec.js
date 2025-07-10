@@ -74,15 +74,33 @@ test('User is able to complete a purchase', async ({page}) => {
     //check if the order was placed successfully
     await expect(page.locator('h1.hero-primary')).toContainText('Thankyou for the order.');
 
-    const orderIdUnsplit= await page.locator('label.ng-star-inserted').textContent();
-    console.log(`${orderIdUnsplit}`);
-    const arrayText = orderIdUnsplit.split(" "); // Extract the order ID from the label text
-    const orderId = arrayText[2]; // Assuming the order ID is the third element in the array
-    console.log(`${orderId}`);
+    const actualOrderIdUnsplit= await page.locator('label.ng-star-inserted').textContent();
+    console.log(`${actualOrderIdUnsplit}`);
+    const arrayText = actualOrderIdUnsplit.split(" "); // Extract the order ID from the label text
+    const actualOrderId = arrayText[2]; // Assuming the order ID is the third element in the array
+    console.log(`${actualOrderId}`);
 
     //go to the orders history page
     await page.locator('label[routerlink="/dashboard/myorders"]').click();
+    await page.locator('tbody tr').waitFor();
 
     //check if the order history page contains the order ID
-    await expect(page.locator(`th:has-text("${orderId}")`).last()).toContainText(orderId);
+
+    // await expect(page.locator(`th:has-text("${actualOrderId}")`).last()).toContainText(actualOrderId);
+
+
+    const rows = page.locator('tbody tr');
+    
+    for (let i = 0; i < await rows.count(); i++) {
+        const rowOrderId = await rows.nth(i).locator('th').textContent();
+
+        if ( actualOrderId.includes(rowOrderId)) {
+            console.log(`Order ID found: ${rowOrderId}`);
+            await rows.nth(i).locator('button').first().click();
+            break;
+        }
+    }
+
+    const orderIdDetails = await page.locator('div.-main').textContent();
+     expect((orderIdDetails).includes(actualOrderId)).toBeTruthy(); 
 })
