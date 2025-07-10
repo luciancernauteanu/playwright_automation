@@ -1,6 +1,6 @@
 const {test, expect} = require('@playwright/test');
 const { OpenApplication } = require('../utils/E2E_eCommerce/OpenApplication');
-const { userRegistration, getEmail, getPassword } = require('../utils/E2E_eCommerce/userRegistrationAction.js');
+const { userRegistration} = require('../utils/E2E_eCommerce/userRegistrationAction.js');
 
 test('User is able to complete a purchase', async ({page}) => {
     // Open the application and register a new user
@@ -85,15 +85,10 @@ test('User is able to complete a purchase', async ({page}) => {
     await page.locator('tbody tr').waitFor();
 
     //check if the order history page contains the order ID
-
-    // await expect(page.locator(`th:has-text("${actualOrderId}")`).last()).toContainText(actualOrderId);
-
-
     const rows = page.locator('tbody tr');
     
     for (let i = 0; i < await rows.count(); i++) {
         const rowOrderId = await rows.nth(i).locator('th').textContent();
-
         if ( actualOrderId.includes(rowOrderId)) {
             console.log(`Order ID found: ${rowOrderId}`);
             await rows.nth(i).locator('button').first().click();
@@ -103,4 +98,6 @@ test('User is able to complete a purchase', async ({page}) => {
 
     const orderIdDetails = await page.locator('div.-main').textContent();
      expect((orderIdDetails).includes(actualOrderId)).toBeTruthy(); 
+
+     await page.close();
 })
