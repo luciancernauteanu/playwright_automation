@@ -9,8 +9,12 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    
     browserName: 'chromium',
     headless: false,
+    launchOptions:{
+      args: ['--start-maximized'],
+    },
     screenshot: 'on',
     trace: 'retain-on-failure',
     baseURL: 'https://parabank.parasoft.com/',

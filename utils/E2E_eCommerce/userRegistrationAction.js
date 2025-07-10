@@ -28,9 +28,6 @@ async function userRegistration (page) {
     expect(page.locator('input[type="checkbox"]')).toHaveClass(/ng-valid/); //when element have multiple classes, use regex to match
     await page.locator('input[type="submit"]').click();
 
-    console.log(user.email)
-    console.log(user.password)
-
     return {
         email: user.email,
         password: user.password
