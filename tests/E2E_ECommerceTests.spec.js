@@ -5,9 +5,9 @@ const { userRegistration, getEmail, getPassword } = require('../utils/E2E_eComme
 test('User is able to complete a purchase', async ({page}) => {
     // Open the application and register a new user
     await OpenApplication(page);
-    const { email, password } = await userRegistration(page);
 
-    // Put email and password into variables for later use
+    // Store email and password into variables as String for later use
+    const { email, password } = await userRegistration(page);
     console.log(`${email}, ${password}`);
 
     //check if the registration was successful
