@@ -12,9 +12,9 @@ export default defineConfig({
     
     browserName: 'chromium',
     headless: true,
-    launchOptions:{
-      args: ['--start-maximized'],
-    },
+    // launchOptions:{
+    //   args: ['--start-maximized'],
+    // },
     screenshot: 'on',
     trace: 'retain-on-failure',
     baseURL: 'https://parabank.parasoft.com/',

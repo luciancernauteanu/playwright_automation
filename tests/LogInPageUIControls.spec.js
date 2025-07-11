@@ -81,7 +81,7 @@ test('Child window handling test', async ({browser}) =>{
     openLoginPagePractise(page);
 
     const documentsLink =  page.locator('[href*="documents-request"]');
-    const [newPage] = await Promise.all([  //[newPage] - const will ParabankApplicationTests.specbe array]
+    const [newPage] = await Promise.all([  //[newPage] - const will be an array]
         context.waitForEvent('page'),
         documentsLink.click()
     ])
