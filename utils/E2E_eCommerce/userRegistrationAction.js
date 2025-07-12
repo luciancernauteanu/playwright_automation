@@ -1,15 +1,17 @@
 const {expect} = require('@playwright/test');
 const {generateRandomEmail} = require('./generateRandomEmail'); // Import the function to generate random email
 
-const user = {
-    firstName: 'John',
-    lastName: 'Smith',
-    email: `${generateRandomEmail()}`, // Use the function to generate a random email''
-    phone: '5755568877',
-    password: 'testPass1'
-}
 
 async function userRegistration (page) {
+
+    let user = {
+        firstName: "John",
+        lastName: "Doe",
+        email: generateRandomEmail(), // Use the function to generate a random email
+        phone: "1234567890",
+        password: "testPass1"
+    };
+
     
     await page.locator('a[href*="register"]').click();
     await page.locator('#firstName').fill(user.firstName);

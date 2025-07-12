@@ -12,11 +12,9 @@ let response;
         const apiUtils = new APIUtils(apiContext, loginPayload);
         const token = await apiUtils.getToken();
         response = await apiUtils.placeOrder(orderIdPayload);
-
     })
 
-
-test.only('Check using API if orderID is parsed to orders history page', async ({page}) => {
+test('Check using API if orderID is parsed to orders history page', async ({page}) => {
     
     await page.addInitScript(value =>{
             window.localStorage.setItem('token', value);
@@ -24,7 +22,6 @@ test.only('Check using API if orderID is parsed to orders history page', async (
     );
 
     await OpenApplication(page);
-
 
     await page.locator('button[routerlink="/dashboard/myorders"]').click();
     await page.locator('tbody').waitFor(); 
@@ -40,8 +37,8 @@ test.only('Check using API if orderID is parsed to orders history page', async (
     }
 
     const orderIdDetails = await page.locator('div.-main').textContent();
-     expect((orderIdDetails).includes(response.orderId)).toBeTruthy(); 
+    expect((orderIdDetails).includes(response.orderId)).toBeTruthy(); 
 
-     await page.close();
+    await page.close();
 
 })

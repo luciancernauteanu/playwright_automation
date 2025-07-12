@@ -6,7 +6,6 @@ class APIUtils{
         this.loginPayload = loginPayload;
     }
     async getToken() {
-
         //request to login using POST -> use payload -> get token as response in JSON format
        const loginResponse = await this.apiContext.post('https://rahulshettyacademy.com/api/ecom/auth/login', {
             data: this.loginPayload
