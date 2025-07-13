@@ -1,7 +1,6 @@
 const {test, expect, request} = require('@playwright/test');
-const { OpenApplication } = require('../utils/E2E_eCommerce/OpenApplication');
-const { userRegistration } = require('../utils/E2E_eCommerce/userRegistrationAction.js');
-
+const { OpenApplication } = require('../utils/E2E_eCommerce/OpenApplication.js');
+const {email, password} = {email: "lucian_test@gmail.com", password: "testPass1"};
 let webContext;
 
 //Login UI -> collect all storage state from the browser and formating to a JSON file for future injecting in new sessions
@@ -10,14 +9,12 @@ test.beforeAll(async ({browser}) => {
     const page = await context.newPage();
 
     await OpenApplication(page);
-    const {email, password} = await userRegistration(page);
-
+    
     await page.getByRole('button', { name: 'Login' }).click();
     await page.locator('input[type="email"]').fill(email);
     await page.locator('input[type="password"]').fill(password);
     await page.locator('input[type="submit"]').click();
     await expect(page.getByLabel("Login Successfully")).toBeEnabled()
-    globalThis.email = email;
 
     await context.storageState({ path: 'state.json' });
 
@@ -26,7 +23,7 @@ test.beforeAll(async ({browser}) => {
 })
 
 //test cases uses the same browser context as the login session (the same storage state file (state.json))
-test('Client registration and login', async () => {
+test('I can complete order with skipping login with injecting storageState ', async () => {
    const page = await webContext.newPage();
 
    await OpenApplication(page);
@@ -47,7 +44,7 @@ test('Client registration and login', async () => {
 
     // Verify the email field in the checkout form contains the correct email
     const checkoutEmailInput = await page.locator('.user__name  input[type="text"]').inputValue();
-    expect(checkoutEmailInput).toBe(globalThis.email);
+    expect(checkoutEmailInput).toBe(email);
 
     // Select the country from the dropdown
     await page.getByPlaceholder('Select Country').type("Ro", { delay: 100 }); // Type with delay to trigger the dropdown
@@ -64,7 +61,6 @@ test('Client registration and login', async () => {
             break;
         }
     }
-
     // type name on card and CVV code
     const nameOnCard = email.split('@')[0];
     await page.locator('div.title:has-text("Name on Card") + input[type="text"]').fill(nameOnCard);
@@ -106,29 +102,18 @@ test('Client registration and login', async () => {
     const orderIdDetails = await page.locator('div.-main').textContent();
      expect((orderIdDetails).includes(actualOrderId)).toBeTruthy(); 
 
-     await page.close();
+    //  await page.close();
     
 })
 
-test('test case 2 example', async () => {
+test('test case 2 showing that st', async () => {
    const page = await webContext.newPage();
 
-   await OpenApplication(page);
+    await OpenApplication(page);
 
-   // Navigate to the products page
-    const productCard = page.locator('.card').filter({ hasText: 'ADIDAS ORIGINAL' });
+    await page.locator('button[routerlink="/dashboard/myorders"]').click();
 
-    // add product to cart
-    await productCard.getByRole('button', { name: 'Add To Cart' }).click();
-    await expect (page.getByLabel("Product Added To Cart")).toBeEnabled();
-
-    // Navigate to the cart
-    await page.locator('button[routerlink="/dashboard/cart"]').click();
-
-    //check if the cart contains the product
-    await expect (page.locator('.cartSection').filter({ hasText: 'ADIDAS ORIGINAL' })).toContainText('ADIDAS');
-    await page.getByRole('button', { name: 'Checkout' }).click();
-
-     await page.close();
-    
+    await page.rou
+    expect(await page.locator('div .mt-4')).toBeVisible();
+  
 })

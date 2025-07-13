@@ -16,7 +16,7 @@ export default defineConfig({
     //   args: ['--start-maximized'],
     // },
     screenshot: 'on',
-    trace: 'retain-on-failure',
+    trace: 'on', //retain-on-failure
     baseURL: 'https://parabank.parasoft.com/',
   },
 });

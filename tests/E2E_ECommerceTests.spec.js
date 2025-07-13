@@ -99,5 +99,5 @@ test('User is able to complete a purchase', async ({page}) => {
     const orderIdDetails = await page.locator('div.-main').textContent();
      expect((orderIdDetails).includes(actualOrderId)).toBeTruthy(); 
 
-     await page.close();
+    //  await page.close();
 })
