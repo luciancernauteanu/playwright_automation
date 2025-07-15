@@ -2,18 +2,16 @@ const {test, expect} = require('@playwright/test');
 const { OpenApplication } = require('../utils/E2E_eCommerce/OpenApplication.js');
 const {POManager} = require('../pageObjects/PageObjectManager.js')
 
+const dataSet = JSON.parse(JSON.stringify(require('../utils/E2E_eCommerce/E2E_ECommerceWithPOTestData.json')));
 
 test('User is able to complete a purchase', async ({page}) => {
     
     const poManager = new POManager(page);
-    const username = 'lucian_test@gmail.com';
-    const password = 'testPass1';
-
     const logInPage = poManager.getLoginPage();
     
     await logInPage.OpenApp();
     expect(await page.title()).toBe("Let's Shop");
-    await logInPage.validLogin(username, password);
+    await logInPage.validLogin(dataSet.username, dataSet.password);
    
     await expect(page.getByLabel("Login Successfully")).toBeEnabled();
     
@@ -22,7 +20,7 @@ test('User is able to complete a purchase', async ({page}) => {
 
 
     const dashboardPage = poManager.getDashboardPage();
-    await dashboardPage.searchProductAddToCart('ADIDAS ORIGINAL');
+    await dashboardPage.searchProductAddToCart(dataSet.productName);
 
  
     await expect(page.getByLabel("Product Added To Cart")).toBeEnabled();
@@ -31,16 +29,16 @@ test('User is able to complete a purchase', async ({page}) => {
 
     //check if the cart contains the product
     const cartPage = poManager.getCartPage();
-    await expect (page.locator('.cartSection').filter({ hasText: 'ADIDAS ORIGINAL' })).toContainText('ADIDAS');
+    await expect (page.locator('.cartSection').filter({ hasText: dataSet.productName })).toContainText('ADIDAS');
     await cartPage.goTocheckout();
 
 
 
     // Verify the email field in the checkout form contains the correct email
-    expect(await page.locator('.user__name  input[type="text"]').inputValue()).toBe(username);
+    expect(await page.locator('.user__name  input[type="text"]').inputValue()).toBe(dataSet.username);
 
     const checkoutPage = poManager.getCheckOutpage();
-    await checkoutPage.completeShippingInfo('Romania', checkoutPage.nameOnCard(username), '123', 'rahulshettyacademy');
+    await checkoutPage.completeShippingInfo('Romania', checkoutPage.nameOnCard(dataSet.username), '123', 'rahulshettyacademy');
     await expect(page.getByText('* Coupon Applied')).toBeVisible(); 
     await checkoutPage.placeOrder();
     await expect(page.locator('h1.hero-primary')).toContainText('Thankyou for the order.');
