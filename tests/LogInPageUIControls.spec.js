@@ -1,6 +1,5 @@
 const {test, expect} = require('@playwright/test');
 const {openLoginPagePractise, loginWithCredentials} = require('../utils/LoginPageHelper');
-const { text } = require('stream/consumers');
 const { console } = require('inspector');
 
 test('Login Page Happy Flow', async ({page})=>{
@@ -93,6 +92,31 @@ test('Child window handling test', async ({browser}) =>{
     console.log(domain);
 
     await page.locator('#username').fill(domain)
+})
+
+test.only('Abort request calls', async({page})=>{
+
+  
+    page.route('**/*.css', route => route.abort());
+    page.route('**/*.{jpg, png, jpeg}', route => route.abort()); //('**/* ) regular expression -> select all files that have this extension
+
+    page.on('request', request=> console.log(request.url()));
+    page.on('response', response=> console.log(response.url(), response.status()));
+
+    //  await page.goto('https://rahulshettyacademy.com/loginpagePractise/');
+    // await page.pause();
+
+    await openLoginPagePractise(page);
+    await loginWithCredentials(page, "rahulshettyacademy", "learning");
+    await page.locator('#terms').click();
+    await page.selectOption('select.form-control', "teach") //selectOption('locator', 'optiontoselect')
+    await page.selectOption('select.form-control', "consult")
+    await page.selectOption('select.form-control', "stud")
+
+    await page.pause();
+
+    
+    // await page.locator('#signInBtn').click();  
 })
 
 //npx playwright codegen 'URL' - to record flows

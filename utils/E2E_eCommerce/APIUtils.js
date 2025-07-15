@@ -19,7 +19,6 @@ class APIUtils{
     
         return token;
     }
-
     async placeOrder(orderIdPayload) {
         //request to place an order using POST -> use payload -> get orderId as response in JSON format
         

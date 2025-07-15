@@ -25,7 +25,7 @@ test('User is able to complete a purchase', async ({page}) => {
     await expect(page.getByLabel("Login Successfully")).toBeEnabled()
 
     // Navigate to the products page
-    const productCard = page.locator('.card').filter({ hasText: 'ADIDAS ORIGINAL' });
+    const productCard = page.locator('.card').filter({ hasText: 'ADIDAS ORIGINAL'});
 
     // add product to cart
     await productCard.getByRole('button', { name: 'Add To Cart' }).click();
@@ -57,6 +57,7 @@ test('User is able to complete a purchase', async ({page}) => {
             break;
         }
     }
+    
 
     // type name on card and CVV code
     const nameOnCard = email.split('@')[0];
