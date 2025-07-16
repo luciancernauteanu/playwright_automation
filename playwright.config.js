@@ -7,17 +7,30 @@ export default defineConfig({
   timeout:5000
   },
   reporter: 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
-    
+  projects : [
+    {
+    name: 'Chrome',
+    use: {
     browserName: 'chromium',
     headless: false,
-    // launchOptions:{
-    //   args: ['--start-maximized'],
-    // },
+    screenshot: 'only-on-failure',
+    trace: 'on', //retain-on-failure,
+    viewport: {width: 720, height: 1024},
+    baseURL: 'https://parabank.parasoft.com/',
+  }},
+  {
+    name: 'Safari',
+    use: {
+    browserName: 'webkit',
+    headless: false,
+    ...devices['iPhone 15 Pro'],
     screenshot: 'on',
-    trace: 'on', //retain-on-failure
+    video: 'retain-on-failure',
+    ignoreHTTPSErrors: true, //allow test to get thru the ssl error
+    permissions: ['geolocation'], //alow geolocation for the app
+    trace: 'on', //retain-on-failure,
     baseURL: 'https://parabank.parasoft.com/',
   },
+  }]
 });
 
