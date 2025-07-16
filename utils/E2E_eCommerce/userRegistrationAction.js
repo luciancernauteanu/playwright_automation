@@ -26,8 +26,8 @@ async function userRegistration (page) {
     await page.locator('#confirmPassword').fill(user.password);
 
     await page.locator('input[type="checkbox"]').click();
-    expect(page.locator('input[type="checkbox"]')).toBeChecked();
-    expect(page.locator('input[type="checkbox"]')).toHaveClass(/ng-valid/); //when element have multiple classes, use regex to match
+    await expect(page.locator('input[type="checkbox"]')).toBeChecked();
+    await expect(page.locator('input[type="checkbox"]')).toHaveClass(/ng-valid/); //when element have multiple classes, use regex to match
     await page.locator('input[type="submit"]').click();
 
     return {
