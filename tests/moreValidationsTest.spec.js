@@ -1,7 +1,7 @@
 const {test, expect} = require ('@playwright/test');
 const path = require('path');
 
-test('Popup validations', async ({page}) => {
+test('@Web Popup validations', async ({page}) => {
 
     await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
 
@@ -18,7 +18,7 @@ test('Popup validations', async ({page}) => {
     await page.locator('a[href="#top"]').click();
 })
 
-test('iFrame handling', async ({page}) => {
+test('@Web iFrame handling', async ({page}) => {
     await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
 
     const framePage = page.frameLocator('#courses-iframe');
@@ -31,7 +31,7 @@ test('iFrame handling', async ({page}) => {
     expect(text).toMatch("13,522");
 })
 
-test.only('Capture screenshot and visual comparison', async({page})=>{
+test('@Web Capture screenshot and visual comparison', async({page})=>{
 
     await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
     await expect(page.locator("#displayed-text")).toBeVisible();
@@ -42,7 +42,7 @@ test.only('Capture screenshot and visual comparison', async({page})=>{
     await page.screenshot({path: 'screenshot.png'}) //screenshot of all page
 })
 
-test ('visual comparing screenshots', async({page})=>{
+test ('@Web visual comparing screenshots', async({page})=>{
 
     // await page.goto('https://www.cheapflights.com/');
     await page.goto('https://www.google.com/');

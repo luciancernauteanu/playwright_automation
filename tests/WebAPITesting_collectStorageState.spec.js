@@ -85,7 +85,8 @@ test('I can complete order with skipping login with injecting storageState ', as
 
     //go to the orders history page
     await page.locator('label[routerlink="/dashboard/myorders"]').click();
-    await page.locator('tbody tr').waitFor();
+    const productList = page.locator('tbody tr');
+    await productList.first().waitFor({ state: 'visible' });
 
     //check if the order history page contains the order ID
     const rows = page.locator('tbody tr');

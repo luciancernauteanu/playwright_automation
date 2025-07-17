@@ -2,14 +2,17 @@ const {test, expect} = require('@playwright/test');
 const {openLoginPagePractise, loginWithCredentials} = require('../utils/LoginPageHelper');
 const { console } = require('inspector');
 
-test('Login Page Happy Flow', async ({page})=>{
+test.describe.configure({mode: "parallel"}); //asign worker for each test
+// test.describe.configure({mode: "serial"}); //used for interdependent test -> if a test is depending of previous failing test it will be skipped 
+
+test('@Web Login Page Happy Flow', async ({page})=>{
     await openLoginPagePractise(page);
     await loginWithCredentials(page, "rahulshettyacademy", "learning");
     await page.locator('#terms').click();
     await page.locator('#signInBtn').click();
 })
 
-test('Login with incorrect username', async ({page})=>{
+test('@Web Login with incorrect username', async ({page})=>{
     await openLoginPagePractise(page);
     await loginWithCredentials(page, "rahulshettyacademy1", "learning");
     await page.locator('#terms').click();
@@ -17,7 +20,7 @@ test('Login with incorrect username', async ({page})=>{
     await expect(page.locator("[style*=block]")).toContainText("Incorrect")
 })
 
-test('Login with incorrect password', async ({page})=>{
+test('@Web Login with incorrect password', async ({page})=>{
     await openLoginPagePractise(page);
     await loginWithCredentials(page, "rahulshettyacademy", "learning1");
     await page.locator('#terms').click();
@@ -28,14 +31,14 @@ test('Login with incorrect password', async ({page})=>{
     await expect(page.locator("[style*=block]")).toContainText("Incorrect")
 })
 
-test('Log in with Terms and conditions checkbox ticked should be mandatory', async ({page})=>{
+test('@Web Log in with Terms and conditions checkbox ticked should be mandatory', async ({page})=>{
     await openLoginPagePractise(page);
     await loginWithCredentials(page, "rahulshettyacademy", "learning");
     await page.locator('#signInBtn').click();
     await expect(page.locator("[style*=block]")).toContainText("Please indicate that you have read and agree to the Terms and Conditions and Privacy Policy")
 })
 
-test('Login as a user will trigger a popup to be displayed', async ({page})=>{
+test('@Web Login as a user will trigger a popup to be displayed', async ({page})=>{
     await openLoginPagePractise(page);
     await loginWithCredentials(page, "rahulshettyacademy", "learning");
     await page.locator('#terms').click();
@@ -51,7 +54,7 @@ test('Login as a user will trigger a popup to be displayed', async ({page})=>{
     await page.locator('#signInBtn').click();   
 })
 
-test('Select options from dropdown', async ({page})=>{
+test('@Web Select options from dropdown', async ({page})=>{
     await openLoginPagePractise(page);
     await loginWithCredentials(page, "rahulshettyacademy", "learning");
     await page.locator('#terms').click();
@@ -62,7 +65,7 @@ test('Select options from dropdown', async ({page})=>{
 })
 
 
-test('Link text has blicking class and opens in new tab', async ({page})=>{
+test('@Web Link text has blicking class and opens in new tab', async ({page})=>{
 
     const documentsLink =  page.locator('[href*="documents-request"]');
     
@@ -73,7 +76,7 @@ test('Link text has blicking class and opens in new tab', async ({page})=>{
     
 })
 
-test('Child window handling test', async ({browser}) =>{
+test('@Web Child window handling test', async ({browser}) =>{
 
     const context = await browser.newContext();
     const page  = await context.newPage()
@@ -94,7 +97,7 @@ test('Child window handling test', async ({browser}) =>{
     await page.locator('#username').fill(domain)
 })
 
-test.only('Abort request calls', async({page})=>{
+test('Abort request calls', async({page})=>{
 
   
     page.route('**/*.css', route => route.abort());

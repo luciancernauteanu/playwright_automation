@@ -18,10 +18,10 @@ let response;
         apiContext.post('https://rahulshettyacademy.com/api/ecom/order/get-orders-details?');
     })
 
-test('Check using API if orderID is parsed to orders history page', async ({page}) => {
+test('@API Check using API if orderID is parsed to orders history page', async ({page}) => {
     
     await page.addInitScript(value =>{
-            window.localStorage.setItem('token', value);
+        window.localStorage.setItem('token', value);
         }, response.token
     );
 
@@ -43,12 +43,12 @@ test('Check using API if orderID is parsed to orders history page', async ({page
     const orderIdDetails = await page.locator('div.-main').textContent();
     expect((orderIdDetails).includes(response.orderId)).toBeTruthy(); 
 
-    // await page.close();
+    await page.close();
 
 })
 
 //altering the response
-test('Check using API if orders page have no orders', async ({page}) => {
+test('@API Check using API if orders page have no orders', async ({page}) => {
     
     await page.addInitScript(value =>{
             window.localStorage.setItem('token', value);
@@ -75,7 +75,7 @@ test('Check using API if orders page have no orders', async ({page}) => {
 
 
 //altering the request
-test('Check if parsing orderId from a different account is not authorized', async ({page}) => {
+test('@API Check if parsing orderId from a different account is not authorized', async ({page}) => {
     await page.addInitScript(value =>{
             window.localStorage.setItem('token', value);
         }, response.token
@@ -95,12 +95,7 @@ test('Check if parsing orderId from a different account is not authorized', asyn
 
     await page.locator('button:has-text("View")').first().click();
     await expect(page.locator(".blink_me")).toContainText("You are not authorize");
-    await page.pause()
-
-        
-    
-
-
+    // await page.pause()
 })
 
 

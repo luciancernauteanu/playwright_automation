@@ -3,6 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   timeout: 30 * 1000,
+  retries: 1,
   expect:{
   timeout:5000
   },
@@ -15,7 +16,7 @@ export default defineConfig({
     headless: false,
     screenshot: 'only-on-failure',
     trace: 'on', //retain-on-failure,
-    viewport: {width: 720, height: 1024},
+    // viewport: {width: 720, height: 1024},
     baseURL: 'https://parabank.parasoft.com/',
   }},
   {
@@ -23,7 +24,7 @@ export default defineConfig({
     use: {
     browserName: 'webkit',
     headless: false,
-    ...devices['iPhone 15 Pro'],
+    // ...devices['iPhone 15 Pro'],
     screenshot: 'on',
     video: 'retain-on-failure',
     ignoreHTTPSErrors: true, //allow test to get thru the ssl error

@@ -4,8 +4,9 @@ const {POManager} = require('../pageObjects/PageObjectManager.js')
 
 const dataSet = JSON.parse(JSON.stringify(require('../utils/E2E_eCommerce/E2E_ECommerceWithPOTestData.json')));
 
+
 for(const data of dataSet){
-    test(`User is able to complete a purchase with user: ${data.username}`, async ({page}) => {
+    test(`@Web User is able to complete a purchase with user: ${data.username}`, async ({page}) => {
         
         const poManager = new POManager(page);
         const logInPage = poManager.getLoginPage();
